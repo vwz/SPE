@@ -1,0 +1,41 @@
+This file is to introduce the source code we use in SPE.
+
+
+FileList:
+
+	source-code		:	The source code of SPE model
+	readMe			:	This file.
+
+
+=======================================================================
+source-code
+=======================================================================
+FileList in source-code folder:
+	dataset preparation-SPE	:	These codes are used to prepare datasets offline for SPE.
+	model-autoencoder		:	These codes are used to learn the subgraph embedding from a subgraph structural similarity matrix.
+	model-SPE				:	These codes are used to learn the SPE model and evaluate it.
+	
+1. dataset preparation-SPE
+	These codes are written in Java, which are used to prepare datasets offline for SPE.
+	First of all, we use codes from [1] to get all the subgraphs in a graph and then get the instances of each subgraph.
+	Then we use dataset preparation-SPE to sample o-paths from graph, and then we calculate the number of instances between any node u and node v, and finally generate the m-paths.
+	All of these are done offline and then saved in the database(or files), so we could use directly in the period of training and testing.
+	
+	Main.java is the entry class. And this program reads the parameters from Config.java.
+	
+2. model-autoencoder
+	These codes are written in Python, which are used to learn the subgraph embedding from a subgraph structural similarity matrix.
+	Here we use aotuencoder to learn an embedding x for each subgraph m.
+	
+	Here autoencoderTraining.py is the main method of this autoencoder model. And we set parameters in this file.
+	
+3. model-SPE
+	These codes are written in Python, which are used to train the SPE model and to evaluate it. It takes the output of codes 1 and codes 2 as its input.
+	In this folder, experimentForOneFileByParams.py is the main method. This file provides us a method to get parameters from file pythonParamsConfig, and then train the model and test it.
+	The pythonParamsConfig is the configuration file of this model, and we could set parameters in this file.
+	At last, this model then will output the results of NDCG and MAP.
+	
+=======================================================================
+References
+=======================================================================
+[1]. Fang, Yuan, et al. "Semantic proximity search on graphs with metagraph-based learning." Data Engineering (ICDE), 2016 IEEE 32nd International Conference on. IEEE, 2016.
